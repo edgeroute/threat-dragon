@@ -1,0 +1,30 @@
+name: Run Devici Code Genius
+on:
+  # Choose between pull_request, push, fork etc. You can specify 
+  # more than one scenario.
+  pull_request:
+    # Choose between branches, tags.
+    branches:
+      # Set the desired branches or leave empty to run for 
+      # every branch.
+    
+jobs:
+    run:
+      name: Run Test PR
+      runs-on: ubuntu-latest
+    
+      steps:
+        # Step 1. Checkout the code
+        - name: Checkout Code
+          uses: actions/checkout@v4
+
+        # Step 2. Run Code Genius Repo mode provided that API token 
+        # was set in secrets and the scanning directory is '.'
+        - name: Run Code Genius
+          # Be sure to state the correct version (after '@'), 
+          # or simply choose 'latest'
+          uses: Devici-ThreatModel/code-genius-action@latest 
+          env:
+            # Make sure to include 
+            CG_CLIENT_ID: ${{ secrets.CG_CLIENT_ID }}
+            CG_CLIENT_SECRET: ${{ secrets.CG_CLIENT_SECRET }}
