@@ -170,7 +170,6 @@ For secure disclosure, please see the [security policy](security.md).
 
 Threat Dragon: _making threat modeling less threatening_
 
-
 [build]: https://github.com/OWASP/threat-dragon/actions/workflows/push.yaml
 [bitbucket]: https://owasp.org/www-project-threat-dragon/docs-2/bitbucket-repo/
 [github]: https://owasp.org/www-project-threat-dragon/docs-2/github-repo/
