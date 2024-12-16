@@ -10,7 +10,7 @@ on:
     
 jobs:
     run:
-      name: Run Test PR
+      name: Code Genius for every PR
       runs-on: ubuntu-latest
     
       steps:
