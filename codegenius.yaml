@@ -1,0 +1,21 @@
+scenarios:
+
+  - name: App.js
+    include:
+      - td.server/src/app.js
+
+  - name: Auth Controller
+    include:
+      - td.server/src/controllers/auth.js
+
+  - name: Server-side Repositories
+    include:
+      - td.server/src/repositories
+
+  - name: Server-side Providers
+    include:
+      - td.server/src/providers
+
+  - name: JS Frontend Providers
+    include:
+      - td.vue/src/service/provider
