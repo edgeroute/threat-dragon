@@ -1,0 +1,15 @@
+scenarios:
+ - name: auth Controller
+ gitignore: false
+ include:
+ - td.server/src/controllers/auth.js
+
+ - name: Threat Dragon Repositories
+ gitignore: true
+ include:
+ - td.server/src/repositories
+
+ - name: Vue Providers
+ gitignore: true
+ include:
+ - td.vue/src/service/provider
