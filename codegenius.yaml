@@ -1,0 +1,16 @@
+scenarios:
+  - name: Auth Controller
+    include:
+      - td.server/src/controllers/auth.js
+
+  - name: Threat Dragon Repositories
+    include:
+      - td.server/src/repositories
+
+  - name: Attributes
+    include:
+      - src/modules/attributes
+
+  - name: Vue Providers
+    include:
+      - td.vue/src/service/provider
