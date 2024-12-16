@@ -1,0 +1,27 @@
+scenarios:
+ # Name of the thread model
+ - name: auth Controller
+ # Set true to include .gitignore content as ignore entities
+ gitignore: false
+ # Set relative paths to file or directories to be analyzed
+ include:
+ - td.server/src/controllers/auth.js
+ # Set relative paths to file or directories to exclude from analysis
+ exclude:
+ - # dir/path
+
+ # Name of the thread model
+ - name: Threat Dragon Repositories
+ gitignore: true
+ include:
+ - td.server/src/repositories
+ exclude:
+ - # dir/path
+
+  # Name of the thread model
+ - name: Vue Providers
+ gitignore: true
+ include:
+ - td.vue/src/service/provider
+ exclude:
+ - # dir/path
