@@ -1,6 +1,7 @@
 {
   "name": "threat-dragon",
-  "version": "v2.3.0-RC1",
+  "version": "2.3.0",
+  "appBundleId": "org.owasp.threatdragon",
   "private": true,
   "scripts": {
     "audit": "npm-run-all -c audit:server audit:site",

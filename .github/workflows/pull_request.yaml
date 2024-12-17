@@ -35,7 +35,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -69,7 +69,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -103,7 +103,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -164,7 +164,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -205,7 +205,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -245,7 +245,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -259,7 +259,7 @@ jobs:
         run: npm start
 
       - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.11.0
+        uses: zaproxy/action-full-scan@v0.12.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           target: 'http://localhost:8080'
@@ -286,7 +286,7 @@ jobs:
           install: true
 
       - name: Cache Docker layers
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile') }}
@@ -296,7 +296,7 @@ jobs:
 
       - name: Build for amd64
         id: docker_build
-        uses: docker/build-push-action@v6.9.0
+        uses: docker/build-push-action@v6.10.0
         with:
           context: ./
           file: ./Dockerfile
@@ -327,7 +327,7 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   scan_image_with_trivy:
-    name: Scan with trivy
+    name: Scan with Trivy
     runs-on: ubuntu-24.04
     needs: build_docker_image
     permissions:
@@ -337,18 +337,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.0
 
-      - name: Download docker local image
+      - name: Retrieve local docker image
         uses: actions/download-artifact@v4.1.8
         with:
           name: ${{ env.IMAGE_NAME }}
           path: /tmp
       
-      - name: Load docker local image
+      - name: Load local docker image
         run: |
           docker load --input /tmp/${{ env.IMAGE_NAME }}.tar
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.29.0
         with:
           image-ref: '${{ env.IMAGE_NAME }}'
           format: 'table'

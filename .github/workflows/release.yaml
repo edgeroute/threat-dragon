@@ -1,10 +1,10 @@
 name: Release pipeline
 
+# only for version 2.x.x releases, and release candidates
 on:
   push:
-    # only for version 2.x.x releases and release candidates
     tags:
-      - v2.?.?*
+      - v2.?.*
   workflow_dispatch:
 
 env:
@@ -31,7 +31,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -65,7 +65,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -109,7 +109,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -145,7 +145,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -157,8 +157,11 @@ jobs:
         run: npm clean-install
 
       - name: Build Windows executable
-        # signing has to be done later with hardware key
-        run: npm run build:desktop -- --windows --publish never
+        # code signing using Extended Verification (EV) open source certificate
+        # must be done using a hardware key
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:desktop -- --windows --publish always
 
       - name: Save SBOM artifact
         uses: actions/upload-artifact@v4.4.0
@@ -174,6 +177,17 @@ jobs:
     name: MacOS installer
     runs-on: macos-latest
     needs: [desktop_unit_tests, site_unit_tests]
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # MacOS signing: certificate and password, see electron.build/code-signing
+      CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_PASSWORD }}
+      CSC_LINK:  ${{ secrets.MAC_CERTS }}
+      # MacOS notarization: see github.com/electron/notarize#readme
+      API_KEY_ID: ${{ secrets.API_KEY_ID }}
+      API_KEY_ISSUER_ID: ${{ secrets.API_KEY_ISSUER_ID }}
+      # APPLE_ID: ${{ secrets.APPLE_ID }}
+      # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
     defaults:
       run:
         working-directory: td.vue
@@ -188,7 +202,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -200,21 +214,12 @@ jobs:
         run: npm clean-install
 
       - name: Prepare for MacOS notarization
-        # Import Apple API key for app notarization on macOS
+        # Import Apple API key to support signing of app
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
 
       - name: Publish MacOS disk image
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # MacOS signing certificate and password, see electron.build/code-signing
-          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_PASSWORD }}
-          CSC_LINK:  ${{ secrets.MAC_CERTS }}
-          # MacOS notarization, see electron.build/configuration/mac.html
-          # see also github.com/samuelmeuli/action-electron-builder#notarization
-          API_KEY_ID: ${{ secrets.API_KEY_ID }}
-          API_KEY_ISSUER_ID: ${{ secrets.API_KEY_ISSUER_ID }}
         run: npm run build:desktop -- --mac --publish always
 
       - name: Print logs on error
@@ -247,7 +252,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -283,6 +288,9 @@ jobs:
     name: Linux snap
     runs-on: ubuntu-24.04
     needs: [desktop_unit_tests, site_unit_tests]
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
     defaults:
       run:
         working-directory: td.vue
@@ -297,7 +305,7 @@ jobs:
           node-version: '20.14.0'
 
       - name: Cache NPM dir
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -314,14 +322,10 @@ jobs:
       # Snaps do not publish, even with snapcraft installed, so use Snap Store
       - name: Build Linux snap
         shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build:desktop -- --linux snap
 
       - name: Upload to Snap Store
         shell: bash
-        env:
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
         run: snapcraft upload --release=stable dist-desktop/threat-dragon*.snap
 
       - name: Print logs on error
@@ -355,7 +359,7 @@ jobs:
           install: true
 
       - name: Cache Docker layers
-        uses: actions/cache@v4.1.1
+        uses: actions/cache@v4.2.0
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile') }}
@@ -372,7 +376,7 @@ jobs:
       # platform manifests not (yet) supported, so split out architectures
       - name: Build for amd64 and push to Docker Hub
         id: docker_build_amd64
-        uses: docker/build-push-action@v6.9.0
+        uses: docker/build-push-action@v6.10.0
         with:
           context: ./
           file: ./Dockerfile
@@ -386,7 +390,7 @@ jobs:
 
       - name: Build for arm64 and push to Docker Hub
         id: docker_build_arm64
-        uses: docker/build-push-action@v6.9.0
+        uses: docker/build-push-action@v6.10.0
         with:
           context: ./
           file: ./Dockerfile
@@ -431,7 +435,7 @@ jobs:
 
     steps:
       - name: Fetch prepared SBOM artifacts
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           pattern: 'sboms-*'
           merge-multiple: false
@@ -484,7 +488,7 @@ jobs:
           tar -czvf threat-dragon-sboms.zip sboms
 
       - name: Create release notes
-        uses: softprops/action-gh-release@v2.0.4
+        uses: softprops/action-gh-release@v2.1.0
         with:
           draft: true
           name: "${releaseVersion:1}"
