@@ -83,7 +83,16 @@ const ara = {
     branch: {
         select: 'حدد فرعًا من',
         from: 'من القائمة أدناه أو',
-        chooseRepo: 'اختيار مستودع آخر'
+        or: 'أو',
+        chooseRepo: 'اختيار مستودع آخر',
+        protectedBranch: 'فرع محمي',
+        nameRequired: 'اسم الفرع مطلوب',
+        nameExists: 'اسم الفرع موجود بالفعل',
+        refBranch: 'الفرع المرجعي',
+        addNew: 'إضافة فرع جديد',
+        add: 'إضافة فرع',
+        cancel: 'إلغاء',
+        name: 'اسم الفرع',
     },
     threatmodelSelect: {
         select: 'حدد نموذج تهديد من',
@@ -346,9 +355,11 @@ const ara = {
             mitigated: 'تم التخفيف'
         },
         priority: {
+            tbd: 'سيتم الإعلان عنها',
             low: 'منخفض',
             medium: 'متوسط',
-            high: 'عالي'
+            high: 'عالي',
+            critical: 'شديد الأهمية'
         }
     },
     report: {
@@ -369,9 +380,11 @@ const ara = {
             total: 'إجمالي التهديدات',
             mitigated: 'الإجمالي المُخفف',
             notMitigated: 'الإجمالي غير المُخفف',
+            openCritical: 'مفتوح / الأولوية الحرجة',
             openHigh: 'مفتوح / أولوية عالية',
             openMedium: 'مفتوح / أولوية متوسطة',
             openLow: 'مفتوح / أولوية منخفضة',
+            openTbd: 'مفتوح / الأولوية في TBD',
             openUnknown: 'مفتوح / أولوية غير معروفة'
         }
     },

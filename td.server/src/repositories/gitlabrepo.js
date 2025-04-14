@@ -23,7 +23,7 @@ export const getClient = (accessToken) => {
     return GitlabClientWrapper.getClient(clientOptions.auth);
 };
 
-export const reposAsync = (page, accessToken) => searchAsync(page, accessToken, undefined);
+export const reposAsync = (page, accessToken, searchQuerys = []) => searchAsync(page, accessToken, searchQuerys);
 
 export const getPagination = (paginationInfo, page) => {
     const pagination = {page, next: false, prev: false};
@@ -36,8 +36,8 @@ export const getPagination = (paginationInfo, page) => {
     return pagination;
 };
 
-export const searchAsync = async (page, accessToken, searchQuery) => {
-    const repos = await getClient(accessToken).Projects.all({page: page, membership: true, showExpanded: true, search: searchQuery});
+export const searchAsync = async (page, accessToken, searchQuerys = []) => {
+    const repos = await getClient(accessToken).Projects.all({page: page, membership: true, showExpanded: true, search: searchQuerys.join('&')});
     repos.data.map((repo) => {
         repo.full_name = repo.path_with_namespace;
         return repo;
@@ -100,11 +100,18 @@ export const deleteAsync = (modelInfo, accessToken) => getClient(accessToken).Re
         'Deleted by OWASP Threat Dragon',
     );
 
+export const createBranchAsync = (repoInfo, accessToken) => {
+    const client = getClient(accessToken);
+    const repo = getRepoFullName(repoInfo);
+    return client.Branches.create(repo, repoInfo.branch, repoInfo.ref);
+};
+
 const getRepoFullName = (info) => `${info.organisation}/${info.repo}`;
 const getModelPath = (modelInfo) => `${repoRootDirectory()}/${modelInfo.model}/${modelInfo.model}.json`;
 const getModelContent = (modelInfo) => JSON.stringify(modelInfo.body, null, '  ');
 
 export default {
+    createBranchAsync,
     branchesAsync,
     createAsync,
     deleteAsync,
@@ -113,5 +120,5 @@ export default {
     reposAsync,
     searchAsync,
     updateAsync,
-    userAsync
+    userAsync,
 };

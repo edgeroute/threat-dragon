@@ -83,7 +83,16 @@ const eng = {
     branch: {
         select: 'Select a branch from',
         from: 'from the list below or',
-        chooseRepo: 'choose another repo'
+        chooseRepo: 'choose another repo',
+        or: 'or',
+        addNew: 'add a new branch',
+        protectedBranch: 'Protected branch',
+        refBranch: 'Reference branch',
+        nameRequired: 'Branch name is required',
+        nameExists: 'Branch name already exists',
+        add: 'add branch',
+        cancel: 'Cancel',
+        name: 'branch name',
     },
     folder: {
         select: 'Select a',
@@ -249,6 +258,7 @@ const eng = {
         discardTitle: 'Discard Changes?',
         discardMessage: 'Are you sure you want to discard your changes?',
         edit: 'Edit',
+        export: 'Export',
         exportAs: 'Export Model As',
         exportHtml: 'HTML Report',
         exportPdf: 'PDF Report',
@@ -349,9 +359,11 @@ const eng = {
             mitigated: 'Mitigated'
         },
         priority: {
+            tbd: 'TBD',
             low: 'Low',
             medium: 'Medium',
-            high: 'High'
+            high: 'High',
+            critical: 'Critical'
         }
     },
     report: {
@@ -372,9 +384,11 @@ const eng = {
             total: 'Total Threats',
             mitigated: 'Total Mitigated',
             notMitigated: 'Not Mitigated',
+            openCritical: 'Open / Critical Priority',
             openHigh: 'Open / High Priority',
             openMedium: 'Open / Medium Priority',
             openLow: 'Open / Low Priority',
+            openTbd: 'Open / TBD Priority',
             openUnknown: 'Open / Unknown Priority'
         }
     },

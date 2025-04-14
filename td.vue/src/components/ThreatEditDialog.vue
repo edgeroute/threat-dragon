@@ -195,9 +195,11 @@ export default {
         },
         priorities() {
             return [
+                { value: 'TBD', text: this.$t('threats.priority.tbd') },
                 { value: 'Low', text: this.$t('threats.priority.low') },
                 { value: 'Medium', text: this.$t('threats.priority.medium') },
-                { value: 'High', text: this.$t('threats.priority.high') }
+                { value: 'High', text: this.$t('threats.priority.high') },
+                { value: 'Critical', text: this.$t('threats.priority.critical') }
             ];
         },
         modalTitle() { return this.$t('threats.edit') + ' #' + this.number; }

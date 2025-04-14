@@ -22,10 +22,10 @@ export const getClient = (accessToken) => {
     return BitbucketClientWrapper.getClient(clientOptions);
 };
 
-export const reposAsync = async (page, accessToken) => {
+export const reposAsync = async (page, accessToken, searchQuerys = []) => {
     //Migrated
     const workspace = env.get().config.BITBUCKET_WORKSPACE;
-    const repos = await getClient(accessToken).repositories.list({workspace: workspace, page: page, pagelen: 10});
+    const repos = await getClient(accessToken).repositories.list({workspace: workspace, page: page, pagelen: 10, q: searchQuerys.join(' AND ')});
 
     const responseRepos = repos.data.values.map((x) => {
         const newX = {};
@@ -41,10 +41,10 @@ const hasNextPage = (response) => response.data.next !== undefined && response.d
 const hasPreviousPage = (response) => response.data.previous !== undefined && response.data.previous !== null;
 
 //Migrate searchAsync required
-const searchAsync = (page, accessToken, searchQuery) => getClient(accessToken).search().
+const searchAsync = (page, accessToken, searchQuerys) => getClient(accessToken).search().
 reposAsync({
     page: page,
-    q: searchQuery
+    q: searchQuerys
 });
 
 export const userAsync = (accessToken) => getClient(accessToken).users.getAuthedUser();
@@ -154,9 +154,27 @@ export const deleteAsync = async (modelInfo, accessToken) => {
     throw new Error(`Bitbucket deleteAsync is not implemented yet`);
 };
 
+export const createBranchAsync = (repoInfo, accessToken) => {
+    const workspace = env.get().config.BITBUCKET_WORKSPACE;
+
+    const client = getClient(accessToken);
+    const repo = getRepoFullName(repoInfo);
+    return client.refs.createBranch({
+        _body: {
+            name: repoInfo.branch,
+            target: {
+                hash: repoInfo.ref
+            }
+        },
+        repo_slug: repo,
+        workspace: workspace
+    });
+};
+
 const getRepoFullName = (info) => `${info.repo}`;
 const getModelPath = (modelInfo) => `${repoRootDirectory()}/${modelInfo.model}/${modelInfo.model}.json`;
 const getModelContent = (modelInfo) => JSON.stringify(modelInfo.body, null, '  ');
+
 
 export default {
     branchesAsync,
@@ -168,5 +186,6 @@ export default {
     searchAsync,
     updateAsync,
     userAsync,
-    getClient
+    getClient,
+    createBranchAsync
 };

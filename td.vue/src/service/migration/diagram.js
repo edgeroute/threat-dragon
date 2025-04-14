@@ -4,8 +4,13 @@ import graphFactory from '@/service/x6/graph/graph.js';
 import events from '@/service/x6/graph/events.js';
 import store from '@/store/index.js';
 import tmActions from '@/store/actions/threatmodel.js';
+import { passiveSupport } from 'passive-events-support/src/utils';
 
-const buildVersion = require('../../../package.json').version;
+const appVersion = require('../../../package.json').version;
+
+passiveSupport({
+    events: ['touchstart', 'mousewheel']
+});
 
 const drawV1 = (diagram, graph) => {
     const { nodes, edges } = cells.map(diagram);
@@ -21,7 +26,7 @@ const upgradeAndDraw = (diagram, graph) => {
     drawV1(diagram, graph);
 
     const updated = graph.toJSON();
-    updated.version = buildVersion;
+    updated.version = appVersion;
     updated.title = diagram.title;
     updated.description = diagram.description;
     updated.thumbnail = diagram.thumbnail;
@@ -36,7 +41,8 @@ const upgradeAndDraw = (diagram, graph) => {
 
 const drawGraph = (diagram, graph) => {
     if (diagram.version && diagram.version.startsWith('2.')) {
-        console.debug('open version 2.x diagram');
+        console.debug('open diagram version: ' + diagram.version);
+        diagram.version = appVersion;
         graph.fromJSON(diagram);
     } else {
         console.debug('upgrade version 1.x diagram');

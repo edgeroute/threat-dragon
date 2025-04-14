@@ -83,7 +83,16 @@ const zho = {
     branch: {
         select: '选择一个分支',
         from: '从下面列表或',
-        chooseRepo: '选择另一个源'
+        chooseRepo: '选择另一个源',
+        or: '或者',
+        addNew: '添加新分支',
+        protectedBranch: '受保护的分支',
+        nameRequired: '分支名称是必需的',
+        nameExists: '分支名称已存在',
+        refBranch: '参考分支',
+        add: '添加分支',
+        cancel: '取消',
+        name: '分支名称',
     },
     threatmodelSelect: {
         select: '从中选择一个威胁模型',
@@ -344,9 +353,11 @@ const zho = {
             mitigated: '缓解'
         },
         priority: {
+            tbd: '待定',
             low: '低',
             medium: '中',
-            high: '高'
+            high: '高',
+            critical: '批判的'
         }
     },
     report: {
@@ -367,9 +378,11 @@ const zho = {
             total: '威胁总数',
             mitigated: '已缓解总数',
             notMitigated: '未缓解',
+            openCritical: '未解决/关键优先级',
             openHigh: '未解决/高优先级',
             openMedium: '未解决/中优先级',
             openLow: '未解决/低优先级',
+            openTbd: '未解决/待定优先级',
             openUnknown: '未解决/未知优先级'
         }
     },

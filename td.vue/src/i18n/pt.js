@@ -83,7 +83,16 @@ const por = {
     branch: {
         select: 'Selecionar uma branch',
         from: 'da lista abaixo ou',
-        chooseRepo: 'escolher outro repositório'
+        chooseRepo: 'escolher outro repositório',
+        or: 'ou',
+        addNew: 'adicionar um novo branch',
+        protectedBranch: 'Branch protegida',
+        nameRequired: 'Nome da branch é obrigatório',
+        nameExists: 'Nome da branch já existe',
+        refBranch: 'Branch de referência',
+        add: 'Adicionar branch',
+        cancel: 'Cancelar',
+        name: 'Nome da branch',
     },
     threatmodelSelect: {
         select: 'Selecion a Threat Model from',
@@ -344,9 +353,11 @@ const por = {
             mitigated: 'Mitigated'
         },
         priority: {
+            tbd: 'TBD',
             low: 'Low',
             medium: 'Medium',
-            high: 'High'
+            high: 'High',
+            critical: 'Critical'
         }
     },
     report: {
@@ -367,9 +378,11 @@ const por = {
             total: 'Ameaças totais',
             mitigated: 'Total Mitigado',
             notMitigated : 'Não atenuado',
+            openCritical : 'Abrir / Crítica Prioridade',
             openHigh : 'Abrir / Alta Prioridade',
             openMedium : 'Abrir / Prioridade Média',
             openLow : 'Abrir / Baixa Prioridade',
+            openTbd : 'Abrir / TBD Prioridade',
             openUnknown : 'Prioridade Aberta / Desconhecida'
         }
     },

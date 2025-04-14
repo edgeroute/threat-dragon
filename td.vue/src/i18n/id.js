@@ -1,4 +1,4 @@
-const id = {
+const ind = {
     auth: {
         sessionExpired: 'Sesi Anda telah berakhir. Silakan masuk kembali untuk melanjutkan.'
     },
@@ -83,7 +83,16 @@ const id = {
     branch: {
         select: 'Pilih cabang dari',
         from: 'dari daftar di bawah atau',
-        chooseRepo: 'pilih repo lain'
+        chooseRepo: 'pilih repo lain',
+        or: 'atau',
+        addNew: 'tambahkan cabang baru',
+        protectedBranch: 'Cabang dilindungi',
+        nameRequired: 'Nama cabang diperlukan',
+        nameExists: 'Nama cabang sudah ada',
+        refBranch: 'Cabang Referensi',
+        add: 'Tambah cabang',
+        cancel: 'Batal',
+        name: 'Nama Cabang',
     },
     threatmodelSelect: {
         select: 'Pilih Model Ancaman dari',
@@ -344,9 +353,11 @@ const id = {
             mitigated: 'Diredam'
         },
         priority: {
+            tbd: 'TBD',
             low: 'Rendah',
             medium: 'Sedang',
-            high: 'Tinggi'
+            high: 'Tinggi',
+            critical: 'Kritis'
         }
     },
     report: {
@@ -367,9 +378,11 @@ const id = {
             total: 'Total Ancaman',
             mitigated: 'Total Diredam',
             notMitigated: 'Belum Diredam',
+            openCritical: 'Terbuka / Prioritas Kritis',
             openHigh: 'Terbuka / Prioritas Tinggi',
             openMedium: 'Terbuka / Prioritas Sedang',
             openLow: 'Terbuka / Prioritas Rendah',
+            openTbd: 'Terbuka / Prioritas TBD',
             openUnknown: 'Terbuka / Prioritas Tidak Diketahui'
         }
     },
@@ -385,4 +398,4 @@ const id = {
     }
 };
 
-export default id;
+export default ind;

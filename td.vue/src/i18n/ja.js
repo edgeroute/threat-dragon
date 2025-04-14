@@ -79,7 +79,16 @@ const jpn = {
     branch: {
         select: '次のものから',
         from: 'ブランチ名を選択してください',
-        chooseRepo: 'リポジトリの切り替え'
+        chooseRepo: 'リポジトリの切り替え',
+        or: 'または',
+        addNew: '新しいブランチを追加します。',
+        protectedBranch: '保護されたブランチ',
+        nameRequired: 'ブランチ名が必要です。',
+        nameExists: 'ブランチ名が既に存在します。',
+        refBranch: 'リファレンスブランチ',
+        add: 'ブランチを追加する\n',
+        cancel: '取り消し',
+        name: 'ブランチ名',
     },
     threatmodelSelect: {
         select: '次のものから',
@@ -340,9 +349,11 @@ const jpn = {
             mitigated: '解決済み'
         },
         priority: {
+            tbd: '未定',
             low: '低',
             medium: '中',
-            high: '高'
+            high: '高',
+            critical: '致命的'
         }
     },
     report: {
@@ -363,9 +374,11 @@ const jpn = {
             total: '脅威総数',
             mitigated: '対策済みの脅威',
             notMitigated: '未対策の脅威',
+            openCritical: '未対応 / 最優先事項',
             openHigh: '未対応 / 高優先度',
             openMedium: '未対応 / 中優先度',
             openLow: '未対応 / 低優先度',
+            openTbd: '未対応 / 優先度は未定',
             openUnknown: '未対応 / 優先度不明'
         }
     },
